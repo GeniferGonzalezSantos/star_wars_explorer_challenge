@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import { PeopleProps } from "./types";
 import { fetchPeople } from "../service/api";
 import { Card } from "../components/card/page";
-import InputSearch from "../components/input_serch/page";
+import InputSearch from "../components/input_search/page";
 
 export default function PeoplePage() {
   const [people, setPeople] = useState<PeopleProps[]>([]);
+  const [filteredPeople, setFilteredPeople] = useState<PeopleProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,6 +17,7 @@ export default function PeoplePage() {
         const data = await fetchPeople();
         console.log("Fetched data:", data);
         setPeople(data.results || []);
+        setFilteredPeople(data.results || []);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -28,6 +30,13 @@ export default function PeoplePage() {
     fetchData();
   }, []);
 
+  const handleSearch = (query: string) => {
+    const filtered = people.filter((person) =>
+      person.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredPeople(filtered);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -38,10 +47,10 @@ export default function PeoplePage() {
 
   return (
     <div>
-      <InputSearch />
+      <InputSearch onSearch={handleSearch} />
       <Card
         title="Star Wars Characters"
-        items={people}
+        items={filteredPeople}
         renderItem={(person) => (
           <>
             <h2 className="text-lg font-bold">{person.name}</h2>
@@ -49,14 +58,12 @@ export default function PeoplePage() {
               Homeworld: {person.homeworld}
             </p>
             <p className="text-sm text-gray-600">
-              Vehicles:{" "}
-              {person.vehicles.length > 0 ? person.vehicles.join(", ") : "None"}
+              height:{" "}
+              {person.height.length}
             </p>
             <p className="text-sm text-gray-600">
-              Starships:{" "}
-              {person.starships.length > 0
-                ? person.starships.join(", ")
-                : "None"}
+              mass:{" "}
+              {person.mass}
             </p>
           </>
         )}
