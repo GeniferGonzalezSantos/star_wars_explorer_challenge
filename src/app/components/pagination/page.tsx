@@ -6,24 +6,13 @@ export default function Pagination({
   totalPages,
   onPageChange,
 }: PaginationProps) {
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
-    }
-  };
 
   return (
     <div className="flex justify-center items-center gap-4 mt-4">
       <button
-        onClick={handlePrevious}
+        onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        className="p-2 border rounded"
       >
         Previous
       </button>
@@ -31,9 +20,9 @@ export default function Pagination({
         Page {currentPage} of {totalPages}
       </span>
       <button
-        onClick={handleNext}
+        onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+        className="p-2 border rounded"
       >
         Next
       </button>

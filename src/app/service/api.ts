@@ -8,11 +8,10 @@ export async function fetchFromApi<T>(
 ): Promise<T> {
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, options);
-
     if (!response.ok) {
       throw new Error(`Erro na requisição: ${response.statusText}`);
     }
-
+    
     const data = await response.json();
     return data;
   } catch (error) {
