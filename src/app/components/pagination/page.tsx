@@ -1,4 +1,5 @@
 import React from "react";
+import { PaginationProps } from "./types";
 
 export default function Pagination({
   currentPage,
