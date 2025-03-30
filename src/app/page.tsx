@@ -5,7 +5,7 @@ import SearchInput from "./components/input_search/page";
 import Pagination from "./components/pagination/page";
 import PeoplePage from "./people/page";
 //import PlanetsPage from "./planets/page";
-// import FavoritesPage from "./favorites/page";
+import FavoritesPage from "./favorite/page";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +26,16 @@ export default function Home() {
       case "Planet":
         return <p>Planets Page (not implemented)</p>;
       case "Favorites":
-        return <p>Favorites Page (not implemented)</p>;
+        return (
+          <FavoritesPage
+            name="Favorites"
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        );
       default:
         return <p>Select a category to explore</p>;
     }

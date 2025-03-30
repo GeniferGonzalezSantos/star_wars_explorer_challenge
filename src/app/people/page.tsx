@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { PeopleProps, PeopleResult } from "./types";
 import { Card } from "../components/card/page";
 import { useFetchData } from "../hooks/useFetchData";
+import { FavoriteButton } from "../components/favoriteButton/page";
 
 export default function PeoplePage({
   currentPage,
@@ -17,7 +18,9 @@ export default function PeoplePage({
   } = useFetchData<PeopleResult>("/people", currentPage, 3, searchQuery);
 
   useEffect(() => {
-    onTotalPagesChange(totalPages);
+    if (totalPages !== undefined) {
+      onTotalPagesChange(totalPages);
+    }
   }, [totalPages, onTotalPagesChange]);
 
   if (loading) {
@@ -35,6 +38,7 @@ export default function PeoplePage({
         items={people}
         renderItem={(person) => (
           <div key={person.name} className="p-4 border rounded shadow">
+            <FavoriteButton itemName={person.name} />
             <h2 className="text-lg font-bold">{person.name}</h2>
             <p className="text-sm text-gray-600">Height: {person.height}</p>
             <p className="text-sm text-gray-600">Mass: {person.mass}</p>
