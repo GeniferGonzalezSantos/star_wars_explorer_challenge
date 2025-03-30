@@ -7,13 +7,14 @@ import { useFetchData } from "../hooks/useFetchData";
 export default function PeoplePage({
   currentPage,
   onTotalPagesChange,
+  searchQuery,
 }: PeopleProps) {
   const {
     data: people,
     loading,
     error,
     totalPages,
-  } = useFetchData<PeopleResult>("/people", currentPage, 3);
+  } = useFetchData<PeopleResult>("/people", currentPage, 3, searchQuery);
 
   useEffect(() => {
     onTotalPagesChange(totalPages);

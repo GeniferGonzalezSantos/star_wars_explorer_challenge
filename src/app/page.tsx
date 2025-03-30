@@ -39,10 +39,12 @@ export default function Home() {
     font-[family-name:var(--font-Orbitron-sans)]"
     >
       <header className="row-start-1">
-        <SearchInput
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+        {activePage !== "All" && (
+          <SearchInput
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        )}
       </header>
       <main className="flex flex-col gap-[32px] row-start-2 items-center">
         {activePage === "All" && (

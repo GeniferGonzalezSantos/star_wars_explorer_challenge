@@ -1,16 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { fetchFromApi } from "../service/api";
 
-export function useFetchData<T>(
+export function useFetchData<T extends { name: string }>(
   endpoint: string,
   currentPage: number,
   itemsPerPage = 3,
+  searchQuery: string,
   filterFunction?: (item: T) => boolean
 ) {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(1);
+  const [rawData, setRawData] = useState<T[]>([]);
+
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedSearchQuery(searchQuery), 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,21 +27,9 @@ export function useFetchData<T>(
       setError(null);
       try {
         const response = await fetchFromApi<{ results: T[]; count: number }>(
-          `${endpoint}?page=${currentPage}`
+          `${endpoint}`
         );
-
-        const filteredData = filterFunction
-          ? response.results.filter(filterFunction)
-          : response.results;
-
-        setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const paginatedData = filteredData.slice(
-          startIndex,
-          startIndex + itemsPerPage
-        );
-        setData(paginatedData);
+        setRawData(response.results);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -43,7 +40,33 @@ export function useFetchData<T>(
     };
 
     fetchData();
-  }, [endpoint, currentPage, itemsPerPage, filterFunction]);
+  }, [endpoint]);
+
+  const filteredData = useMemo(() => {
+    const filtered = rawData.filter((item) => {
+      const matchesSearchQuery = item.name
+        .toLowerCase()
+        .includes(debouncedSearchQuery.toLowerCase());
+      return filterFunction
+        ? filterFunction(item) && matchesSearchQuery
+        : matchesSearchQuery;
+    });
+
+    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filtered.slice(startIndex, startIndex + itemsPerPage);
+  }, [
+    rawData,
+    debouncedSearchQuery,
+    filterFunction,
+    currentPage,
+    itemsPerPage,
+  ]);
+
+  useEffect(() => {
+    setData(filteredData);
+  }, [filteredData]);
 
   return { data, loading, error, totalPages };
 }
