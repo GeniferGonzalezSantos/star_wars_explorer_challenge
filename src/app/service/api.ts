@@ -11,9 +11,9 @@ export async function fetchFromApi<T>(
     if (!response.ok) {
       throw new Error(`Erro na requisição: ${response.statusText}`);
     }
-    
+
     const data = await response.json();
-    return data;
+    return data as T;
   } catch (error) {
     console.error("Erro ao buscar dados da API:", error);
     throw error;
