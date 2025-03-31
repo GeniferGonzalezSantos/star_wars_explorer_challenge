@@ -7,7 +7,6 @@ async function fetchFromApi<T>(
   options?: RequestInit
 ): Promise<T> {
   const response = await fetch(`${BASE_URL}${endpoint}`, options);
-  console.log(`${BASE_URL}${endpoint}`);
 
   if (!response.ok) {
     throw new Error(`Erro na requisição: ${response.statusText}`);
@@ -60,9 +59,23 @@ export function useApiData<T extends { name: string }>(
 
   const filteredData = useMemo(() => {
     const filtered = rawData.filter((item) => {
-      const matchesSearchQuery = item.name
-        .toLowerCase()
-        .includes(debouncedSearchQuery.toLowerCase());
+      const matchesSearchQuery = Object.values(item).some((value) => {
+        if (typeof value === "string") {
+          return value
+            .toLowerCase()
+            .includes(debouncedSearchQuery.toLowerCase());
+        } else if (Array.isArray(value)) {
+          return (value as string[]).some(
+            (arrayItem: string) =>
+              typeof arrayItem === "string" &&
+              arrayItem
+                .toLowerCase()
+                .includes(debouncedSearchQuery.toLowerCase())
+          );
+        }
+        return false;
+      });
+
       return filterFunction
         ? filterFunction(item) && matchesSearchQuery
         : matchesSearchQuery;
@@ -79,7 +92,6 @@ export function useApiData<T extends { name: string }>(
     currentPage,
     itemsPerPage,
   ]);
-
   useEffect(() => {
     setData(filteredData);
   }, [filteredData]);

@@ -7,7 +7,7 @@ import { useApiData } from "../service/api";
 
 export default function PeoplePage({
   currentPage,
-  onTotalPagesChange,
+  onTotalPagesChange = () => {},
   searchQuery,
 }: PeopleProps) {
   const {
@@ -42,6 +42,11 @@ export default function PeoplePage({
             <h2 className="text-lg font-bold">{person.name}</h2>
             <p className="text-sm text-gray-600">Height: {person.height}</p>
             <p className="text-sm text-gray-600">Mass: {person.mass}</p>
+            <p className="text-sm text-gray-600">Mass: {person.hair_color}</p>
+            <p className="text-sm text-gray-600">c: {person.skin_color}</p>
+            <p className="text-sm text-gray-600">Mass: {person.eye_color}</p>
+            <p className="text-sm text-gray-600">Height: {person.homeworld}</p>
+            <p className="text-sm text-gray-600">Mass: {person.films}</p>
           </div>
         )}
       />
