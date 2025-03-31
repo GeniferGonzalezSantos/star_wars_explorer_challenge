@@ -4,7 +4,7 @@ import { Card } from "./components/card/page";
 import SearchInput from "./components/input_search/page";
 import Pagination from "./components/pagination/page";
 import PeoplePage from "./people/page";
-//import PlanetsPage from "./planets/page";
+import PlanetsPage from "./planets/page";
 import FavoritesPage from "./favorite/page";
 
 export default function Home() {
@@ -23,8 +23,14 @@ export default function Home() {
             searchQuery={searchQuery}
           />
         );
-      case "Planet":
-        return <p>Planets Page (not implemented)</p>;
+      case "Planets":
+        return (
+          <PlanetsPage
+            currentPage={currentPage}
+            onTotalPagesChange={setTotalPages}
+            searchQuery={searchQuery}
+          />
+        );
       case "Favorites":
         return (
           <FavoritesPage

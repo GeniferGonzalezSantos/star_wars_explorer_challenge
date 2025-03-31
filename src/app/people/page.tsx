@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import { PeopleProps, PeopleResult } from "./types";
 import { Card } from "../components/card/page";
-import { useFetchData } from "../hooks/useFetchData";
 import { FavoriteButton } from "../components/favoriteButton/page";
+import { useApiData } from "../service/api";
 
 export default function PeoplePage({
   currentPage,
@@ -15,7 +15,7 @@ export default function PeoplePage({
     loading,
     error,
     totalPages,
-  } = useFetchData<PeopleResult>("/people", currentPage, 3, searchQuery);
+  } = useApiData<PeopleResult>("/people", currentPage, 3, searchQuery);
 
   useEffect(() => {
     if (totalPages !== undefined) {
