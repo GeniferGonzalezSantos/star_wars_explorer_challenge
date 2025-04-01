@@ -2,12 +2,12 @@ import { useEffect, useState, useMemo } from "react";
 
 const BASE_URL = "https://swapi.dev/api";
 
-async function fetchFromApi<T>(
+export async function fetchFromApi<T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T> {
   const response = await fetch(`${BASE_URL}${endpoint}`, options);
-
+  
   if (!response.ok) {
     throw new Error(`Erro na requisição: ${response.statusText}`);
   }

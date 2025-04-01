@@ -4,6 +4,7 @@ import { PlanetsProps, PlanetsResult } from "./types";
 import { Card } from "../components/card/page";
 import { FavoriteButton } from "../components/favoriteButton/page";
 import { useApiData } from "../service/api";
+import EntityLink from "../components/navigation/page";
 
 export default function PlanetsPage({
   currentPage,
@@ -50,6 +51,11 @@ export default function PlanetsPage({
             <p className="text-sm text-gray-600">
               Orbital Period: {p.orbital_period}
             </p>
+            <EntityLink
+              url={p.url}
+              type="planetsDetails?id="
+              label="More Details"
+            />
           </div>
         )}
       />
