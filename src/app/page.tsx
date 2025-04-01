@@ -6,6 +6,7 @@ import Pagination from "./components/pagination/page";
 import PeoplePage from "./people/page";
 import PlanetsPage from "./planets/page";
 import FavoritesPage from "./favorite/page";
+import { MdNavigateBefore } from "react-icons/md";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,26 +51,27 @@ export default function Home() {
   return (
     <div
       className="grid grid-rows-[25px_1fr_25px] items-center 
-    justify-items-center gap-16 
+    justify-items-center gap-16 py-8
     font-[family-name:var(--font-Orbitron-sans)]"
     >
-      <header className="row-start-1">
+      <header className="row-start-1 w-full mt-8 mb-8">
         {activePage !== "" && (
-          <>
+          <div className="flex flex-col sm:flex-row justify-items-stretch items-stretch content-center gap-4 px-4">
             <button
               onClick={() => setActivePage("")}
-              className="text-white rounded m-4 underline hover:bg-gray-700 absolute left-0 top-0 h-16 w-16"
+              className="text-white rounded hover:bg-gray-700 h-16 w-16 flex items-center justify-center"
             >
-              Voltar
+              <MdNavigateBefore size={32} className="hidden sm:block" />
+              <span className="block sm:hidden mt-8 underline">Voltar</span>
             </button>
             <SearchInput
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </>
+          </div>
         )}
       </header>
-      <main className="flex flex-col gap-[32px] row-start-2 items-center">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center justify-items-center">
         {activePage === "" && (
           <Card
             items={["Character", "Planets", "Favorites"]}
@@ -85,12 +87,14 @@ export default function Home() {
         )}
         {renderPage()}
       </main>
-      <footer className="row-start-3">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+      <footer className="row-start-3 flex flex-col gap-[32px] items-center justify-items-end">
+        {activePage !== "" && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </footer>
     </div>
   );

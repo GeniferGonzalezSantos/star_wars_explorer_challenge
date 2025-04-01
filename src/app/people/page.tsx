@@ -34,19 +34,13 @@ export default function PeoplePage({
   return (
     <div>
       <Card
-        title="Star Wars Characters"
         items={people}
         renderItem={(person) => (
-          <div key={person.name} className="p-4 border rounded shadow">
+          <div key={person.name} className="flex justify-items-stretch items-stretch flex-col">
             <FavoriteButton itemName={person.name} />
             <h2 className="text-lg font-bold">{person.name}</h2>
             <p className="text-sm text-gray-600">Height: {person.height}</p>
             <p className="text-sm text-gray-600">Mass: {person.mass}</p>
-            <p className="text-sm text-gray-600">Mass: {person.hair_color}</p>
-            <p className="text-sm text-gray-600">c: {person.skin_color}</p>
-            <p className="text-sm text-gray-600">Mass: {person.eye_color}</p>
-            <p className="text-sm text-gray-600">Height: {person.homeworld}</p>
-            <p className="text-sm text-gray-600">Mass: {person.films}</p>
           </div>
         )}
       />

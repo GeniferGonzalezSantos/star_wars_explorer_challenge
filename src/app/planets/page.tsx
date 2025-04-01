@@ -34,14 +34,14 @@ export default function PlanetsPage({
   if (!Array.isArray(planets) || planets.length === 0) {
     return <p>No planets found.</p>;
   }
+  
 
   return (
     <div>
       <Card
-        title="Star Wars Planets"
         items={planets}
         renderItem={(p) => (
-          <div key={p.name} className="p-4 border rounded shadow">
+          <div key={p.name} className="flex justify-items-stretch items-stretch flex-col">
             <FavoriteButton itemName={p.name} />
             <h2 className="text-lg font-bold">{p.name}</h2>
             <p className="text-sm text-gray-600">

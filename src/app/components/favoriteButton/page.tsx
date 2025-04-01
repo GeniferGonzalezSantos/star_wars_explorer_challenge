@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { FavoriteButtonProps } from "./types";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 
 export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ itemName }) => {
   const [isFavorite, setIsFavorite] = React.useState(false);
@@ -30,12 +31,10 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ itemName }) => {
 
   return (
     <button
-      className={`mt-2 px-4 py-2 rounded ${
-        isFavorite ? "bg-red-500 text-white" : "bg-gray-200 text-black"
-      }`}
+      className={"absolute top-2 right-2 items-center justify-items-end"}
       onClick={toggleFavorite}
     >
-      {isFavorite ? "Unfavorite" : "Favorite"}
+      {isFavorite ? <MdFavoriteBorder size={32} /> : <MdFavorite className="text-pink-500" size={32}/>}
     </button>
   );
 };

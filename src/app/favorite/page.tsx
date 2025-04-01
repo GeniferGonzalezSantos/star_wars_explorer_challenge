@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FavoritesPageProps } from "./types";
+import { Card } from "../components/card/page";
 
 export default function FavoritesPage({ searchQuery }: FavoritesPageProps) {
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -21,15 +22,19 @@ export default function FavoritesPage({ searchQuery }: FavoritesPageProps) {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Favorite Items</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div className="flex">
         {filteredFavorites.map((item) => (
-          <div key={item} className="p-4 border rounded shadow">
-            <h2 className="text-lg font-bold">{item}</h2>
-          </div>
+          <Card
+            key={item}
+            items={[item]}
+            renderItem={(item: string) => 
+              <div  className="p-4">
+              <h2 className="text-lg font-bold">{item}</h2>
+            </div>
+            }
+          />
         ))}
       </div>
-    </div>
   );
 }

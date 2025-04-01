@@ -1,5 +1,7 @@
 import React from "react";
 import { PaginationProps } from "./types";
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
+
 
 export default function Pagination({
   currentPage,
@@ -14,17 +16,17 @@ export default function Pagination({
         disabled={currentPage === 1}
         className="p-2 border rounded"
       >
-        Previous
+        <MdNavigateBefore />
       </button>
       <span>
-        Page {currentPage} of {totalPages}
+        {currentPage} of {totalPages}
       </span>
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="p-2 border rounded"
       >
-        Next
+        <MdNavigateNext />
       </button>
     </div>
   );
