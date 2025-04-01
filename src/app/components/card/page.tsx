@@ -12,8 +12,8 @@ export const Card = <T,>({ items = [], renderItem, title }: CardProps<T>) => {
             className="p-4 text-base rounded-lg 
             shadow-md hover:shadow-lg transition-shadow flex
             items-center justify-center filter drop-shadow
-            border-double border-4 border-light-white-500" 
-            style={{ height: "21.875rem", width: "15.625rem" }}
+            border-double border-4 border-light-white-500"
+            style={{ height: "21.75rem", width: "17.25rem" }}
           >
             {renderItem(item)}
           </div>
@@ -22,4 +22,3 @@ export const Card = <T,>({ items = [], renderItem, title }: CardProps<T>) => {
     </div>
   );
 };
-

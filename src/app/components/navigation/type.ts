@@ -1,5 +1,6 @@
 export interface EntityLinkProps {
   url: string;
   type: string;
-  label: string;
+  label: React.ReactNode;
+  className?: string; 
 }

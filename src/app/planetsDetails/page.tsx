@@ -1,47 +1,37 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link'; // Importa o componente Link do Next.js
-import EntityLink from '../components/navigation/page';
-
-interface Planet {
-  name: string;
-  rotation_period: string;
-  orbital_period: string;
-  diameter: string;
-  climate: string;
-  gravity: string;
-  terrain: string;
-  surface_water: string;
-  population: string;
-  residents: string[]; // URLs dos residentes
-  films: string[]; // URLs dos filmes
-}
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import EntityLink from "../components/navigation/page";
+import { Planet } from "./types";
 
 const PlanetsDetailsPage: React.FC = () => {
   const searchParams = useSearchParams();
-  const planetId = searchParams.get('id'); // Captura o ID do planeta da URL
+  const planetId = searchParams.get("id");
   const [planet, setPlanet] = useState<Planet | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!planetId) {
-      setError('No planet ID provided');
+      setError("No planet ID provided");
       setLoading(false);
       return;
     }
 
     const fetchPlanet = async () => {
       try {
-        const response = await fetch(`https://swapi.dev/api/planets/${planetId}/`);
+        const response = await fetch(
+          `https://swapi.dev/api/planets/${planetId}/`
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch planet details');
+          throw new Error("Failed to fetch planet details");
         }
         const data = await response.json();
         setPlanet(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred"
+        );
       } finally {
         setLoading(false);
       }
@@ -65,15 +55,33 @@ const PlanetsDetailsPage: React.FC = () => {
   return (
     <div>
       <h1>{planet.name} Details</h1>
-      <p><strong>Rotation Period:</strong> {planet.rotation_period}</p>
-      <p><strong>Orbital Period:</strong> {planet.orbital_period}</p>
-      <p><strong>Diameter:</strong> {planet.diameter}</p>
-      <p><strong>Climate:</strong> {planet.climate}</p>
-      <p><strong>Gravity:</strong> {planet.gravity}</p>
-      <p><strong>Terrain:</strong> {planet.terrain}</p>
-      <p><strong>Surface Water:</strong> {planet.surface_water}</p>
-      <p><strong>Population:</strong> {planet.population}</p>
-      <p><strong>Residents:</strong></p>
+      <p>
+        <strong>Rotation Period:</strong> {planet.rotation_period}
+      </p>
+      <p>
+        <strong>Orbital Period:</strong> {planet.orbital_period}
+      </p>
+      <p>
+        <strong>Diameter:</strong> {planet.diameter}
+      </p>
+      <p>
+        <strong>Climate:</strong> {planet.climate}
+      </p>
+      <p>
+        <strong>Gravity:</strong> {planet.gravity}
+      </p>
+      <p>
+        <strong>Terrain:</strong> {planet.terrain}
+      </p>
+      <p>
+        <strong>Surface Water:</strong> {planet.surface_water}
+      </p>
+      <p>
+        <strong>Population:</strong> {planet.population}
+      </p>
+      <p>
+        <strong>Residents:</strong>
+      </p>
       <ul>
         {planet.residents.length > 0 ? (
           planet.residents.map((residentUrl, index) => {
@@ -91,7 +99,9 @@ const PlanetsDetailsPage: React.FC = () => {
           <li>None</li>
         )}
       </ul>
-      <p><strong>Films:</strong></p>
+      <p>
+        Films:
+      </p>
       <ul>
         {planet.films.length > 0 ? (
           planet.films.map((filmUrl, index) => {

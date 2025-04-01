@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { PeopleProps, PeopleResult } from "./types";
 import { Card } from "../components/card/page";
 import { FavoriteButton } from "../components/favoriteButton/page";
+import { TfiMore } from "react-icons/tfi";
 import { useApiData } from "../service/api";
 import EntityLink from "../components/navigation/page";
 
@@ -42,13 +43,18 @@ export default function PeoplePage({
             className="flex justify-items-stretch items-stretch flex-col cursor-pointer"
           >
             <FavoriteButton itemName={person.name} />
-            <h2 className="text-lg font-bold">{person.name}</h2>
-            <p className="text-sm text-gray-600">Height: {person.height}</p>
-            <p className="text-sm text-gray-600">Mass: {person.mass}</p>
+            <h2 className="text-xl font-bold overflow-ellipsis overflow-hidden">{person.name}</h2>
+            <p className="text-md text-gray-200">Height: {person.height}</p>
+            <p className="text-md text-gray-200">Mass: {person.mass}</p>
             <EntityLink
               url={person.url}
               type="charactersDetails?id="
-              label="More Details"
+              label={
+                <span className="absolute bottom-1 mb-4 rigth-1 flex items-center space-x-1">
+                  <span className="text-md text-pink-400">More Details</span>
+                  <TfiMore className="self-end " />
+                </span>
+              }
             />
           </div>
         )}
