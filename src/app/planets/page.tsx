@@ -1,23 +1,23 @@
 "use client";
 import React, { useEffect } from "react";
-import { PeopleProps, PeopleResult } from "./types";
+import { PlanetsProps, PlanetsResult } from "./types";
 import { Card } from "../components/card/page";
 import { FavoriteButton } from "../components/favoriteButton/page";
-import { TfiMore } from "react-icons/tfi";
 import { useApiData } from "../service/api";
 import EntityLink from "../components/navigation/page";
+import { TfiMore } from "react-icons/tfi";
 
-export default function PeoplePage({
+export default function PlanetsPage({
   currentPage,
-  onTotalPagesChange = () => {},
+  onTotalPagesChange,
   searchQuery,
-}: PeopleProps) {
+}: PlanetsProps) {
   const {
-    data: people,
+    data: planets,
     loading,
     error,
     totalPages,
-  } = useApiData<PeopleResult>("/people", currentPage, 3, searchQuery);
+  } = useApiData<PlanetsResult>("/planets", currentPage, 3, searchQuery);
 
   useEffect(() => {
     if (totalPages !== undefined) {
@@ -37,28 +37,34 @@ export default function PeoplePage({
     return <p>Error: {error}</p>;
   }
 
+  if (!Array.isArray(planets) || planets.length === 0) {
+    return <p>No planets found.</p>;
+  }
+
   return (
     <div>
       <Card
-        items={people}
-        renderItem={(person) => (
+        items={planets}
+        renderItem={(p) => (
           <div
-            key={person.name}
-            className="flex justify-items-stretch items-stretch flex-col cursor-pointer"
+            key={p.name}
+            className="flex justify-items-stretch items-stretch flex-col"
           >
-            <FavoriteButton itemName={person.name} />
-            <h2 className="text-xl font-bold overflow-ellipsis overflow-hidden">
-              {person.name}
-            </h2>
-            <p className="text-md text-gray-200">Height: {person.height}</p>
-            <p className="text-md text-gray-200">Mass: {person.mass}</p>
+            <FavoriteButton itemName={p.name} />
+            <h2 className="text-lg font-bold">{p.name}</h2>
+            <p className="text-sm text-gray-600">
+              Rotation Period: {p.rotation_period}
+            </p>
+            <p className="text-sm text-gray-600">
+              Orbital Period: {p.orbital_period}
+            </p>
             <EntityLink
-              url={person.url}
-              type="charactersDetails?id="
+              url={p.url}
+              type="planetsDetails?id="
               label={
                 <span className="absolute bottom-1 mb-4 rigth-1 flex items-center space-x-1">
                   <span className="text-md text-pink-400">More Details</span>
-                  <TfiMore className="self-end" />
+                  <TfiMore className="self-end " />
                 </span>
               }
             />

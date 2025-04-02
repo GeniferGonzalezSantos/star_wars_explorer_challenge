@@ -1,9 +1,7 @@
 export interface PeopleProps {
-  name: string;
-  homeworld: string;
-  vehicles: string[];
-  starships: string[];
-  onClick?: () => void;
+  currentPage: number;
+  onTotalPagesChange: (totalPages: number) => void;
+  searchQuery: string;
 }
 
 export type PeopleDataItem = {
