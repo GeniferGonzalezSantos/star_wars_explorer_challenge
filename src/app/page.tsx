@@ -6,7 +6,7 @@ import Pagination from "./components/pagination/page";
 import PeoplePage from "./people/page";
 import PlanetsPage from "./planets/page";
 import FavoritesPage from "./favorite/page";
-import { MdNavigateBefore } from "react-icons/md";
+import BackButton from "./components/backButton/page";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,13 +57,8 @@ export default function Home() {
       <header className="row-start-1 w-full mt-8 mb-8">
         {activePage !== "" && (
           <div className="flex flex-col sm:flex-row justify-items-stretch items-stretch content-center gap-4 px-4">
-            <button
-              onClick={() => setActivePage("")}
-              className="text-white rounded hover:bg-gray-700 h-16 w-16 flex items-center justify-center"
-            >
-              <MdNavigateBefore size={32} className="hidden sm:block" />
-              <span className="block sm:hidden mt-8 underline">Voltar</span>
-            </button>
+            <BackButton 
+            onClick={() => setActivePage("")} />
             <SearchInput
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

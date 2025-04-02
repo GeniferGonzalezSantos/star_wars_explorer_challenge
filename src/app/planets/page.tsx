@@ -26,7 +26,11 @@ export default function PlanetsPage({
   }, [totalPages, onTotalPagesChange]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-5xl mx-4">Loading...</h1>
+      </div>
+    );
   }
 
   if (error) {
@@ -56,7 +60,7 @@ export default function PlanetsPage({
             </p>
             <EntityLink
               url={p.url}
-              type="charactersDetails?id="
+              type="planetsDetails?id="
               label={
                 <span className="absolute bottom-1 mb-4 rigth-1 flex items-center space-x-1">
                   <span className="text-md text-pink-400">More Details</span>

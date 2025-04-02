@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import EntityLink from "../components/navigation/page";
 import { Planet } from "./types";
+import BackButton from "../components/backButton/page";
 
 const PlanetsDetailsPage: React.FC = () => {
   const searchParams = useSearchParams();
@@ -41,7 +42,11 @@ const PlanetsDetailsPage: React.FC = () => {
   }, [planetId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-5xl mx-4">Loading...</h1>
+      </div>
+    );
   }
 
   if (error) {
@@ -53,73 +58,58 @@ const PlanetsDetailsPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>{planet.name} Details</h1>
-      <p>
-        <strong>Rotation Period:</strong> {planet.rotation_period}
-      </p>
-      <p>
-        <strong>Orbital Period:</strong> {planet.orbital_period}
-      </p>
-      <p>
-        <strong>Diameter:</strong> {planet.diameter}
-      </p>
-      <p>
-        <strong>Climate:</strong> {planet.climate}
-      </p>
-      <p>
-        <strong>Gravity:</strong> {planet.gravity}
-      </p>
-      <p>
-        <strong>Terrain:</strong> {planet.terrain}
-      </p>
-      <p>
-        <strong>Surface Water:</strong> {planet.surface_water}
-      </p>
-      <p>
-        <strong>Population:</strong> {planet.population}
-      </p>
-      <p>
-        <strong>Residents:</strong>
-      </p>
-      <ul>
-        {planet.residents.length > 0 ? (
-          planet.residents.map((residentUrl, index) => {
-            return (
-              <li key={index}>
-                <EntityLink
-                  url={residentUrl}
-                  type="charactersDetails?id="
-                  label={`Resident ${index + 1}`}
-                />
-              </li>
-            );
-          })
-        ) : (
-          <li>None</li>
-        )}
-      </ul>
-      <p>
-        Films:
-      </p>
-      <ul>
-        {planet.films.length > 0 ? (
-          planet.films.map((filmUrl, index) => {
-            return (
-              <li key={index}>
-                <EntityLink
-                  url={filmUrl}
-                  type="films?id="
-                  label={`Film ${index + 1}`}
-                />
-              </li>
-            );
-          })
-        ) : (
-          <li>None</li>
-        )}
-      </ul>
-    </div>
+    <>
+      <BackButton onClick={() => window.history.back()} />
+      <div className="p-4 mx-4">
+        <h1 className="text-2xl font-bold mb-4">{planet.name} Details</h1>
+        <p>Rotation Period: {planet.rotation_period}</p>
+        <p>Orbital Period: {planet.orbital_period}</p>
+        <p>Diameter: {planet.diameter}</p>
+        <p>Climate: {planet.climate}</p>
+        <p>Gravity: {planet.gravity}</p>
+        <p>Terrain: {planet.terrain}</p>
+        <p>Surface Water: {planet.surface_water}</p>
+        <p>Population: {planet.population}</p>
+        <p>Residents:</p>
+        <ul>
+          {planet.residents.length > 0 ? (
+            planet.residents.map((residentUrl, index) => {
+              return (
+                <li key={index} className="text-blue-500 cursor-pointer">
+                  <EntityLink
+                    url={residentUrl}
+                    type="charactersDetails?id="
+                    label={`Resident ${index + 1}`}
+                  />
+                </li>
+              );
+            })
+          ) : (
+            <li>None</li>
+          )}
+        </ul>
+        <p>Films:</p>
+        <ul>
+          {planet.films.length > 0 ? (
+            planet.films.map((filmUrl, index) => {
+              return (
+                <>
+                  <li key={index} className="text-blue-500 cursor-pointer">
+                    <EntityLink
+                      url={filmUrl}
+                      type="films?id="
+                      label={`Film ${index + 1}`}
+                    />
+                  </li>
+                </>
+              );
+            })
+          ) : (
+            <li>None</li>
+          )}
+        </ul>
+      </div>
+    </>
   );
 };
 

@@ -1,26 +1,36 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { Vehicle } from './types';
+import React, { useEffect, useState } from "react";
+import { Vehicle } from "./types";
+import BackButton from "../components/backButton/page";
+import { useSearchParams } from "next/navigation";
+import EntityLink from "../components/navigation/page";
 
 const VehiclesPage: React.FC = () => {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [vehicle, setVehicle] = useState<Vehicle | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const searchParams = useSearchParams();
+  const vehiclesId = searchParams.get("id");
 
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await fetch('https://swapi.dev/api/vehicles/');
-        if (!response.ok) {
-          throw new Error('Failed to fetch vehicles');
+        if (vehiclesId) {
+          const response = await fetch(
+            `https://swapi.dev/api/vehicles/${vehiclesId}/`
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch vehicles");
+          }
+          const data = await response.json();
+          setVehicle(data);
         }
-        const data = await response.json();
-        setVehicles(data.results);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
         } else {
-          setError('An unknown error occurred');
+          setError("An unknown error occurred");
         }
       } finally {
         setLoading(false);
@@ -28,10 +38,14 @@ const VehiclesPage: React.FC = () => {
     };
 
     fetchVehicles();
-  }, []);
+  }, [vehiclesId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-5xl mx-4">Loading...</h1>
+      </div>
+    );
   }
 
   if (error) {
@@ -39,26 +53,95 @@ const VehiclesPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>Vehicles</h1>
-      <ul>
-        {vehicles.map((vehicle, index) => (
-          <li key={index}>
-            <h2>{vehicle.name}</h2>
-            <p><strong>Model:</strong> {vehicle.model}</p>
-            <p><strong>Manufacturer:</strong> {vehicle.manufacturer}</p>
-            <p><strong>Cost:</strong> {vehicle.cost_in_credits}</p>
-            <p><strong>Length:</strong> {vehicle.length}</p>
-            <p><strong>Max Speed:</strong> {vehicle.max_atmosphering_speed}</p>
-            <p><strong>Crew:</strong> {vehicle.crew}</p>
-            <p><strong>Passengers:</strong> {vehicle.passengers}</p>
-            <p><strong>Cargo Capacity:</strong> {vehicle.cargo_capacity}</p>
-            <p><strong>Consumables:</strong> {vehicle.consumables}</p>
-            <p><strong>Class:</strong> {vehicle.vehicle_class}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <BackButton onClick={() => window.history.back()} />
+      <div className="p-4 mx-4 leading-6">
+        <h1>Vehicles</h1>
+        <ul>
+          {vehicle && (
+            <>
+              <li className="m-4">
+                <h2>{vehicle.name}</h2>
+                <p className="tracking-widest leading-6">
+                  <span className="underline racking-widest leading-6 text-pink-400 font-semibold">
+                    Model:
+                  </span>
+                  {vehicle.model}
+                </p>
+                <p className="tracking-widest leading-6">
+                  <span className=" racking-widest leading-6 underline text-pink-400 font-semibold">
+                    Manufacturer:
+                  </span>
+                  {vehicle.manufacturer}
+                </p>
+                <p className="tracking-widest leading-6">
+                  <span className="underline racking-widest leading-6 text-pink-400 font-semibold">
+                    Cost:
+                  </span>
+                  {vehicle.cost_in_credits}
+                </p>
+                <p className="tracking-widest leading-6">
+                  <span className="underline racking-widest leading-6 text-pink-400 font-semibold">
+                    Length:
+                  </span>
+                  {vehicle.length}
+                </p>
+                <p className="tracking-widest leading-6">
+                  <span className="underline racking-widest leading-6 text-pink-400 font-semibold">
+                    Max Speed:
+                  </span>
+                  {vehicle.max_atmosphering_speed}
+                </p>
+                <p className="tracking-widest leading-6">
+                  <span className="underline racking-widest leading-6 text-pink-400 font-semibold">
+                    Crew:
+                  </span>
+                  {vehicle.crew}
+                </p>
+                <p className="tracking-widest leading-6">
+                  <span className="underline racking-widest leading-6 text-pink-400 font-semibold">
+                    Passengers:
+                  </span>
+                  {vehicle.passengers}
+                </p>
+                <p className="tracking-widest leading-6">
+                  <span className="underline racking-widest leading-6 text-pink-400 font-semibold">
+                    Cargo Capacity:
+                  </span>
+                  {vehicle.cargo_capacity}
+                </p>
+                <p className="tracking-widest leading-6">
+                  <span className="underline racking-widest leading-6 text-pink-400 font-semibold">
+                    Consumables:
+                  </span>
+                  {vehicle.consumables}
+                </p>
+                <p className="tracking-widest leading-6">
+                  <span className="underline racking-widest leading-6 text-pink-400 font-semibold">
+                    Class:
+                  </span>
+                  {vehicle.vehicle_class}
+                </p>
+              </li>
+              <div className="mt-4 tracking-widest leading-6">
+                <h2 className="text-xl font-bold">Films</h2>
+                <ul>
+                  {vehicle.films.map((filmUrl, index) => (
+                    <li key={index} className="text-blue-500 cursor-pointer">
+                      <EntityLink
+                        url={filmUrl}
+                        type="films?id="
+                        label={`Film ${index + 1}`}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          )}
+        </ul>
+      </div>
+    </>
   );
 };
 

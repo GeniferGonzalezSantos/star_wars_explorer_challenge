@@ -7,4 +7,5 @@ export interface StarshipProps {
   crew: string;
   passengers: string;
   starship_class: string;
+  films: string[];
 }

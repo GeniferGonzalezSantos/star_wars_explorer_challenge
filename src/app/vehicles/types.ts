@@ -1,4 +1,5 @@
 export interface Vehicle {
+  films: string[];
   name: string;
   model: string;
   manufacturer: string;
