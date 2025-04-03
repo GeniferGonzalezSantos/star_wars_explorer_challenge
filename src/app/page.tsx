@@ -21,7 +21,8 @@ export default function Home() {
           <PeoplePage
             currentPage={currentPage}
             onTotalPagesChange={setTotalPages}
-            searchQuery={searchQuery}
+            searchQuery={searchQuery} 
+            data={[]}
           />
         );
       case "Planets":
@@ -29,7 +30,8 @@ export default function Home() {
           <PlanetsPage
             currentPage={currentPage}
             onTotalPagesChange={setTotalPages}
-            searchQuery={searchQuery}
+            searchQuery={searchQuery} 
+            data={[]}          
           />
         );
       case "Favorites":

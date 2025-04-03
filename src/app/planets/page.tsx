@@ -50,7 +50,7 @@ export default function PlanetsPage({
             key={p.name}
             className="flex justify-items-stretch items-stretch flex-col"
           >
-            <FavoriteButton itemName={p.name} />
+            <FavoriteButton itemName={[p.name, JSON.stringify(p)]} />
             <h2 className="text-lg font-bold">{p.name}</h2>
             <p className="text-sm text-gray-600">
               Rotation Period: {p.rotation_period}
