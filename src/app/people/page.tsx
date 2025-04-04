@@ -46,7 +46,7 @@ export default function PeoplePage({
             key={person.name}
             className="flex justify-items-stretch items-stretch flex-col cursor-pointer"
           >
-            <FavoriteButton itemName={person.name} />
+            <FavoriteButton itemName={[person.name, JSON.stringify(person)]} />
             <h2 className="text-xl font-bold overflow-ellipsis overflow-hidden">
               {person.name}
             </h2>

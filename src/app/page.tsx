@@ -37,10 +37,8 @@ export default function Home() {
           <FavoritesPage
             name="Favorites"
             searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
+            currentPage={currentPage} 
+            onTotalPagesChange={setTotalPages}
           />
         );
       default:
@@ -57,8 +55,7 @@ export default function Home() {
       <header className="row-start-1 w-full mt-8 mb-8">
         {activePage !== "" && (
           <div className="flex flex-col sm:flex-row justify-items-stretch items-stretch content-center gap-4 px-4">
-            <BackButton 
-            onClick={() => setActivePage("")} />
+            <BackButton onClick={() => setActivePage("")} />
             <SearchInput
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

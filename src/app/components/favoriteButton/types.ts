@@ -1,3 +1,3 @@
 export interface FavoriteButtonProps {
-  itemName: string;
+  itemName: [string, string];
 };
