@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  basePath: 'star_wars_explorer_challenge',
+  /* config options here */
 };
 
 export default nextConfig;
