@@ -2,7 +2,6 @@ export interface PlanetsProps {
   currentPage: number;
   onTotalPagesChange: (totalPages: number) => void;
   searchQuery: string;
-  data: string[];
 }
 
 export interface Planet {

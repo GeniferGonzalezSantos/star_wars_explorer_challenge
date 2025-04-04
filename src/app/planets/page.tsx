@@ -9,7 +9,7 @@ import { TfiMore } from "react-icons/tfi";
 
 export default function PlanetsPage({
   currentPage,
-  onTotalPagesChange,
+  onTotalPagesChange = () => {},
   searchQuery,
 }: PlanetsProps) {
   const {
@@ -37,34 +37,32 @@ export default function PlanetsPage({
     return <p>Error: {error}</p>;
   }
 
-  if (!Array.isArray(planets) || planets.length === 0) {
-    return <p>No planets found.</p>;
-  }
-
   return (
     <div>
       <Card
         items={planets}
-        renderItem={(p) => (
+        renderItem={(planet) => (
           <div
-            key={p.name}
-            className="flex justify-items-stretch items-stretch flex-col"
+            key={planet.name}
+            className="flex justify-items-stretch items-stretch flex-col cursor-pointer"
           >
-            <FavoriteButton itemName={[p.name, JSON.stringify(p)]} />
-            <h2 className="text-lg font-bold">{p.name}</h2>
-            <p className="text-sm text-gray-600">
-              Rotation Period: {p.rotation_period}
+            <FavoriteButton itemName={[planet.name, JSON.stringify(planet)]} />
+            <h2 className="text-xl font-bold overflow-ellipsis overflow-hidden">
+              {planet.name}
+            </h2>
+            <p className="text-md text-gray-200">
+              Rotation Period: {planet.rotation_period}
             </p>
-            <p className="text-sm text-gray-600">
-              Orbital Period: {p.orbital_period}
+            <p className="text-md text-gray-200">
+              Orbital Period: {planet.orbital_period}
             </p>
             <EntityLink
-              url={p.url}
+              url={planet.url}
               type="planetsDetails?id="
               label={
                 <span className="absolute bottom-1 mb-4 rigth-1 flex items-center space-x-1">
                   <span className="text-md text-pink-400">More Details</span>
-                  <TfiMore className="self-end " />
+                  <TfiMore className="self-end" />
                 </span>
               }
             />

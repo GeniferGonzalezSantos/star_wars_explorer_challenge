@@ -2,7 +2,6 @@ export interface PeopleProps {
   currentPage: number;
   onTotalPagesChange: (totalPages: number) => void;
   searchQuery: string;
-  data: string[];
 }
 
 export type PeopleDataItem = {
